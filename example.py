@@ -101,25 +101,7 @@ def main(
         ckpt_dir, tokenizer_path, local_rank, world_size, max_seq_len, 1+0*max_batch_size
     )
 
-    prompt = "Once upon a time, there were three bears. They"
-
-    while prompt != "":
-        results = generator.generate(
-            [prompt], max_gen_len=256, temperature=temperature, top_p=top_p
-        )
-
-        for result in results:
-            print(result)
-            print("\n==================================\n")
-
-        prompt = str(input())
-
-
-if __name__ == "__main__":
-    fire.Fire(main)
-
-
-'''
+    prompts = [
         # For these prompts, the expected answer is the natural continuation of the prompt
         "I believe the meaning of life is",
         "Simply put, the theory of relativity states that ",
@@ -137,13 +119,15 @@ Sentiment: Neutral
 Tweet: "This new music video was incredibile"
 Sentiment:""",
         """Translate English to French:
-
 sea otter => loutre de mer
-
 peppermint => menthe poivrée
-
 plush girafe => girafe peluche
-
 cheese =>""",
     ]
-'''
+    results = generator.generate(
+        prompts, max_gen_len=256, temperature=temperature, top_p=top_p
+    )
+
+
+if __name__ == "__main__":
+    fire.Fire(main)
